@@ -1,424 +1,293 @@
-from tkinter import *
-#  Copyright : @python.coder_
-import time
+import pickle
 import random
-from datetime import date
-#price1,price2,price3,price4,price5,price6,price7,price8,
-def price():
-        roo = Tk()
-        roo.geometry("600x280+0+0")
-        roo.title("Price List")
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="ITEM",
-        fg="black", bd=5)
-        lblinfo.grid(row=0, column=0)
-        lblinfo = Label(roo, font=('aria', 15,'bold'), text="_____________",
-        fg="white", anchor=W)
-        lblinfo.grid(row=0, column=2)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="PRICE",
-        fg="black", anchor=W)
-        lblinfo.grid(row=0, column=3)
+import qrcode
+from fpdf import FPDF
+from PIL import Image
 
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Drink",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=1, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="10",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=1, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Burger King",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=2, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="30",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=2, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Cherry",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=3, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="15",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=3, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Nacho Fries",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=4, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="20",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=4, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Pizza",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=5, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="30",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=5, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Biscuits",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=6, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="10",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=6, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="10",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=7, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Roll",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=7, column=0)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="10",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=8, column=3)
-        lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Tea",
-        fg="#ED420B", anchor=W)
-        lblinfo.grid(row=8, column=0)
-        roo.mainloop()
-def clear():
-        text.delete(1.0,END)
+class Train:
+    def __init__(self):
+        self.trainno = 0
+        self.nofafseat = 0
+        self.nofasseat = 0
+        self.noffsseat = 0
+        self.nofacseat = 0
+        self.nofssseat = 0
+        self.trainname = ""
+        self.startingpoint = ""
+        self.destination = ""
 
-def quit_fun():
-        root.destroy()
-def total():
-        price1=int(dringE.get())
-        price2=int(burger_kingE.get())
-        price3=int(cherry.get())
-        price4=int(nacho_fries.get())
-        price5=int(pizza.get())
-        price6=int(biscuits.get())
-        price7=int(roll.get())
-        price8=int(tea.get())
-        #p1,p2,p3 etc means Price Per Person
-        p1=price1*10
-        p2=price1*30
-        p3=price1*25
-        p4=price1*20
-        p5=price1*30
-        p6=price1*10
-        p7=price1*10
-        p8=price1*5
-        #Cost
-        cost=p1+p2+p3+p4+p5+p6+p7+p8
-        display=cost
-        p1_label["text"]=display
-        #Service Tax
-        service_charge=cost/20
-        service_display=service_charge
-        p2_label["text"]=service_display
-        #Tax
-        tax_charge=int(cost/3)
-        tax_display=tax_charge
-        p3_label["text"]=tax_charge
-        #Sub Total
-        sub_total=p1+p2+p3+p4+p5+p6+p7+p8
-        sub_display=sub_total
-        p4_label["text"]=sub_display
-        #Total
-        total=display+service_charge+tax_charge
-        total_display=total
-        p5_label["text"]=total_display
-        #Order Number
-        num=random.randint(1,10000)
-        order_label["text"]=num
+    def input(self):
+        self.trainno = int(input("ENTER THE TRAIN NUMBER: "))
+        self.nofafseat = int(input("ENTER THE NUMBER OF A/C FIRST CLASS SEATS: "))
+        self.nofasseat = int(input("ENTER THE NUMBER OF A/C SECOND CLASS SEATS: "))
+        self.noffsseat = int(input("ENTER THE NUMBER OF FIRST CLASS SLEEPER SEATS: "))
+        self.nofacseat = int(input("ENTER THE NUMBER OF A/C CHAIR CAR SEATS: "))
+        self.nofssseat = int(input("ENTER THE NUMBER OF SECOND CLASS SLEEPER SEATS: "))
+        self.trainname = input("ENTER THE TRAIN NAME: ")
+        self.startingpoint = input("ENTER THE STARTING POINT: ")
+        self.destination = input("ENTER THE DESTINATION: ")
 
-def reset():
-        global total
-        dringE.delete(0,END)
-        burger_kingE.delete(0,END)
-        cherry.delete(0,END)
-        nacho_fries.delete(0,END)
-        pizza.delete(0,END)
-        biscuits.delete(0,END)
-        roll.delete(0,END)
-        tea.delete(0,END)
-        p1_label["text"]=""
-        p2_label["text"]=""
-        p3_label["text"]=""
-        p4_label["text"]=""
-        p5_label["text"]=""
-        order_label["text"]=""
-def clock():
-        current=time.strftime("%H:%M:%S")
-        label1 ["text"]=current
-        root.after(1000,clock)
+    def display(self):
+        print(f"TRAIN NUMBER: {self.trainno}")
+        print(f"TRAIN NAME: {self.trainname}")
+        print(f"NO OF A/C FIRST CLASS SEATS: {self.nofafseat}")
+        print(f"NO OF A/C SECOND CLASS SEATS: {self.nofasseat}")
+        print(f"NO OF FIRST CLASS SLEEPER SEATS: {self.noffsseat}")
+        print(f"NO OF A/C CHAIR CLASS SEATS: {self.nofacseat}")
+        print(f"NO OF SECOND CLASS SLEEPER SEATS: {self.nofssseat}")
+        print(f"STARTING POINT: {self.startingpoint}")
+        print(f"DESTINATION: {self.destination}")
+        input("PRESS ANY KEY TO CONTINUE ")
 
-root=Tk()
-root.geometry("1000x700")
-root.minsize(1000,700)
-root.maxsize(1000,700)
-heading1=Label(root,text="Hotel Management",font="arial 30 bold",fg="#fc5a03")
-heading2=Label(root,text="@python.coder_ Restaurant ",font="arial 18 bold",fg="#fc5a03")
-frame1=Frame(root,height="420",width="330",bd=10,bg="#ED420B",highlightthickness=1,relief=SUNKEN)
-frame1.place(x=40,y=140)
-frame2=Frame(root,height="420",width="330",bd=10,bg="#33A9CE",highlightthickness=1,relief=SUNKEN)
-frame2.place(x=380,y=140)
-#Button Frame
-frame3=Frame(root,height="100",width="670",bd=10,bg="#ED420B",highlightthickness=1,relief=SUNKEN)
-frame3.place(x=40,y=565)
-cal_frame=Frame(root,height="500",width="450",bd=10,highlightthickness=1,relief=SUNKEN)
-cal_frame.place(x=750,y=150)
-text_frame=Frame(root,height="100",width="100")
-text_frame.place(x=1000,y=50)
+class Tickets:
+    def __init__(self):
+        self.resno = 0
+        self.toaf = 0
+        self.nofaf = 0
+        self.toas = 0
+        self.nofas = 0
+        self.tofs = 0
+        self.noffs = 0
+        self.toac = 0
+        self.nofac = 0
+        self.toss = 0
+        self.nofss = 0
+        self.age = 0
+        self.status = ""
+        self.name = ""
 
-frame_time=Frame(root,height="200",width="200",bd=10,highlightthickness=1,relief=SUNKEN)
-frame_time.place(x=100,y=50)
-#Price Frame
-p1_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-p1_label.place(x=200,y=80)
-p2_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-p2_label.place(x=200,y=120)
-p3_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-p3_label.place(x=200,y=160)
-p4_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-p4_label.place(x=200,y=200)
-p5_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-p5_label.place(x=200,y=240)
-order_label=Label(frame2,font="arial 14 bold ",bg="#33A9CE")
-order_label.place(x=200,y=40)
-text=Text(root,height=10,width=25,bd=10,font="arial 10")
-text.insert(END, "Enter Text Here")
-text.place(x=750,y=500)
-#Time
-label1=Label(frame_time,font="article 30",bg="black",fg="#ED420B")
-label1.grid(row=0,column=0)
-clock()
-#Buttons
-#Frame 3
-new_window=Button(frame3,text="Price",command=price,font="arial 15 bold",bd=10)
-new_window.place(x=80,y=10)
-total_btn=Button(frame3,text="Total",command=total,font="arial 15 bold",bd=10)
-total_btn.place(x=210,y=10)
-reset_btn=Button(frame3,text="Reset",command=reset,font="arial 15 bold",bd=10)
-reset_btn.place(x=350,y=10)
-quit_btn=Button(frame3,text="Quit",command=quit_fun,font="arial 15 bold",bd=5)
-quit_btn.place(x=500,y=10)
-clear=Button(root,text="Clear",command=clear,font="arial 10 bold",bd=10)
-clear.place(x=760,y=450)
-#Payment_Entry_Created
-#Frame_2
+    def generate_receipt(self, train):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt="Reservation Receipt", ln=True, align='C')
+        pdf.cell(200, 10, txt=f"Reservation Number: {self.resno}", ln=True)
+        pdf.cell(200, 10, txt=f"Name: {self.name}", ln=True)
+        pdf.cell(200, 10, txt=f"Age: {self.age}", ln=True)
+        pdf.cell(200, 10, txt=f"Status: {self.status}", ln=True)
+        pdf.cell(200, 10, txt=f"Train Number: {train.trainno}", ln=True)
+        pdf.cell(200, 10, txt=f"Train Name: {train.trainname}", ln=True)
+        pdf.cell(200, 10, txt=f"Starting Point: {train.startingpoint}", ln=True)
+        pdf.cell(200, 10, txt=f"Destination: {train.destination}", ln=True)
 
-order_number=Label(frame2,text="Order Number",font="arial 12 bold",bg="#33A9CE")
-cost_label=Label(frame2,text="Cost",font="arial 12 bold ",bg="#33A9CE")
-service_tax=Label(frame2,text="Service Cost",font="arial 12 bold",bg="#33A9CE")
-tax=Label(frame2,text="Tax",font="arial 12 bold ",bg="#33A9CE")
-sub_total=Label(frame2,text="Sub Total",font="arial 12 bold",bg="#33A9CE")
-total=Label(frame2,text="Total",font="arial 12 bold ",bg="#33A9CE")
-#Payment_Entry_Close
-#Frame_2
-order_number.place(x=10,y=40)
-cost_label.place(x=10,y=80)
-service_tax.place(x=10,y=120)
-tax.place(x=10,y=160)
-sub_total.place(x=10,y=200)
-total.place(x=10,y=240)
-dringE=Entry(frame1,bd="3")
-burger_kingE=Entry(frame1,bd="5")
-cherry=Entry(frame1,bd="5")
-nacho_fries=Entry(frame1,bd="5")
-pizza=Entry(frame1,bd="5")
-biscuits=Entry(frame1,bd="5")
-roll=Entry(frame1,bd="5")
-tea=Entry(frame1,bd="5")
-#Food_item_Entry_Created
-#Frame1_objects
-dringE=Entry(frame1,bd="3")
-burger_kingE=Entry(frame1,bd="5")
-cherry=Entry(frame1,bd="5")
-nacho_fries=Entry(frame1,bd="5")
-pizza=Entry(frame1,bd="5")
-biscuits=Entry(frame1,bd="5")
-roll=Entry(frame1,bd="5")
-tea=Entry(frame1,bd="5")
-#Food_item_Entry_Close
-#Frame_1_objects
-dringE.place(x=130,y=35)
-burger_kingE.place(x=130,y=80)
-cherry.place(x=130,y=125)
-nacho_fries.place(x=130,y=170)
-pizza.place(x=130,y=215)
-biscuits.place(x=130,y=260)
-roll.place(x=130,y=305)
-tea.place(x=130,y=350)
-#Food_item_Label_Created
-#Frame1_objects
-drink_label=Label(frame1,text="Drink",font="arial 12 bold ",bg="#ED420B")
+# Generate QR code
+        qr_data = f"Reservation Number: {self.resno}\nName: {self.name}\nAge: {self.age}\nStatus: {self.status}\nTrain Number: {train.trainno}\nTrain Name: {train.trainname}\nStarting Point: {train.startingpoint}\nDestination: {train.destination}"
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        
+        img = qr.make_image(fill='black', back_color='white')
+        img_path = f"qr_{self.resno}.png"
+        img.save(img_path)
+        
+        # Ensure image is in RGB mode
+        img = Image.open(img_path).convert('RGB')
+        img.save(img_path)
+        
+        # Embed QR code in PDF
+        pdf.image(img_path, x=10, y=100, w=50)
+        pdf.output(f"Reservation_{self.resno}.pdf")
+        print(f"Receipt generated: Reservation_{self.resno}.pdf")
 
-burger_king_label=Label(frame1,text="Burger King",font="arial 12 bold",bg="#ED420B")
-cherry_label=Label(frame1,text="Cherry",font="arial 12 bold",bg="#ED420B")
-nacho_fries_label=Label(frame1,text="Nacho Fries",font="arial 12 bold",bg="#ED420B")
-pizza_label=Label(frame1,text="Pizza",font="arial 12 bold ",bg="#ED420B")
-biscuits_label=Label(frame1,text="Biscuits",font="arial 12 bold",bg="#ED420B")
-roll_label=Label(frame1,text="Roll",font="arial 12 bold ",bg="#ED420B")
-tea_label=Label(frame1,text="Tea",font="arial 12 bold ",bg="#ED420B")
-#Food_item_Label_Close
-drink_label.place(x=10,y=35)
-burger_king_label.place(x=10,y=80)
-cherry_label.place(x=10,y=125)
-nacho_fries_label.place(x=10,y=175)
-pizza_label.place(x=10,y=215)
-biscuits_label.place(x=10,y=260)
-roll_label.place(x=10,y=305)
-tea_label.place(x=10,y=350)
-#-------------------------------------------------------------------------
+    def display(self):
+        try:
+            with open("Ticket1.dat", "rb") as file:
+                tickets = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            print("ERROR IN THE FILE")
+            return
 
-from tkinter import messagebox
-val = ""
-A = 0
-operator = ""
-def btn_1_isclicked():
-        global val
-        val = val + "1"
-        data.set(val)
-def btn_2_isclicked():
-        global val
-        val = val + "2"
-        data.set(val)
-def btn_3_isclicked():
-        global val
-        val = val + "3"
-        data.set(val)
-def btn_4_isclicked():
-        global val
-        val = val + "4"
-        data.set(val)
-def btn_5_isclicked():
-        global val
-        val = val + "5"
-        data.set(val)
-def btn_6_isclicked():
-        global val
-        val = val + "6"
-        data.set(val)
-def btn_7_isclicked():
-        global val
-        val = val + "7"
-        data.set(val)
-def btn_8_isclicked():
-        global val
-        val = val + "8"
-        data.set(val)
-def btn_9_isclicked():
-        global val
-        val = val + "9"
-        data.set(val)
-def btn_0_isclicked():
-        global val
-        val = val + "0"
-        data.set(val)
-def btn_plus_isclicked():
-        global A
-        global operator
-        global val
-        A = int(val)
-        operator = "+"
-        val = val + "+"
-        data.set(val)
-def btn_min_isclicked():
-        global A
-        global operator
-        global val
-        A = int(val)
-        operator = "-"
-        val = val + "-"
-        data.set(val)
-def btn_mult_isclicked():
-        global A
-        global operator
-        global val
-        A = int(val)
-        operator = "*"
-        val = val + "*"
-        data.set(val)
+        n = int(input("ENTER THE RESERVATION NO: "))
+        found = False
 
-def btn_div_isclicked():
-        global A
-        global operator
-        global val
-        A = int(val)
-        operator = "/"
-        val = val + "/"
-        data.set(val)
-def btn_c_isclicked():
-        global A
-        global operator
-        global val
-        A = 0
-        operator = ""
-        val = ""
-        data.set(val)
-def result():
-        global A
-        global operator
-        global val
-        val2 = val
-        if operator == "+":
-                B = int((val2.split("+")[1]))
-                C = A + B
-                data.set(C)
-                val = str(C)
-        elif operator == "-":
-                B = int((val2.split("-")[1]))
-                C = A - B
-                data.set(C)
-                val = str(C)
-        elif operator == "*":
-                B = int((val2.split("*")[1]))
-                C = A * B
-                data.set(C)
-                val = str(C)
-        elif operator == "/":
-                B = int((val2.split("/")[1]))
-                if B == 0 :
-                        messagebox.showerror("Error","Divisible by 0 not allowed.")
-                        A = ""
-                        val = ""
-                        data.set(val)
-                else:
-                        C = int(A / B)
-                        data.set(C)
-                        val = str(C)
+        for ticket in tickets:
+            if ticket.resno == n:
+                found = True
+                print(f"NAME: {ticket.name}")
+                print(f"AGE: {ticket.age}")
+                print(f"PRESENT STATUS: {ticket.status}")
+                print(f"RESERVATION NUMBER: {ticket.resno}")
+                break
 
-data = StringVar()
-lbl = Label(cal_frame,text="LABEL",anchor=SE,
-font=("Verdana", 20),
-textvariable=data,
-background="#ffffff",
-fg="#000000"
-)
-lbl.pack(expand=True, fill="both")
-btnrow1 = Frame(cal_frame, bg="#000000")
-btnrow1.pack(expand=True, fill="both")
-btnrow2 = Frame(cal_frame)
-btnrow2.pack(expand=True, fill="both")
-btnrow3 = Frame(cal_frame)
-btnrow3.pack(expand=True, fill="both")
-btnrow4 = Frame(cal_frame)
-btnrow4.pack(expand=True, fill="both")
-btn1 = Button(btnrow1,text="1",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_1_isclicked)
-btn1.pack(side=LEFT, expand=True, fill="both")
-btn2 = Button(btnrow1,text="2",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_2_isclicked)
-btn2.pack(side=LEFT, expand=True, fill="both")
-btn3 = Button(btnrow1,text="3",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_3_isclicked)
-btn3.pack(side=LEFT, expand=True, fill="both")
-btnplus = Button(btnrow1,text="+",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_plus_isclicked)
-btnplus.pack(side=LEFT, expand=True, fill="both")
-btn4 = Button(btnrow2,text="4",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_4_isclicked)
-btn4.pack(side=LEFT, expand=True, fill="both")
-btn5 = Button(btnrow2,text="5",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_5_isclicked)
-btn5.pack(side=LEFT, expand=True, fill="both")
-btn6 = Button(btnrow2,text="6",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_6_isclicked)
-btn6.pack(side=LEFT, expand=True, fill="both")
-btnminus = Button(btnrow2,text="-",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_min_isclicked)
-btnminus.pack(side=LEFT, expand=True, fill="both")
-btn7 = Button(btnrow3,text="7",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_7_isclicked)
-btn7.pack(side=LEFT, expand=True, fill="both")
-btn8 = Button(btnrow3,text="8",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_8_isclicked)
-btn8.pack(side=LEFT, expand=True, fill="both")
-btn9 = Button(btnrow3,text="9",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_9_isclicked)
-btn9.pack(side=LEFT, expand=True, fill="both")
-btnmult = Button(btnrow3,text="*",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_mult_isclicked)
-btnmult.pack(side=LEFT, expand=True, fill="both")
-btnc = Button(btnrow4,text="C",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_c_isclicked)
-btnc.pack(side=LEFT, expand=True, fill="both")
-btn0 = Button(btnrow4,text="0",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_0_isclicked)
-btn0.pack(side=LEFT, expand=True, fill="both")
-btnequal = Button(btnrow4,text="=",font=("Verdana", 22),relief=GROOVE,border=0,command=result)
-btnequal.pack(side=LEFT, expand=True, fill="both")
-btndiv = Button(btnrow4,text="/",font=("Verdana", 22),relief=GROOVE,border=0,command=btn_div_isclicked)
-btndiv.pack(side=LEFT, expand=True, fill="both")
-heading1.place(x=350,y=10)
-heading2.place(x=400,y=80)
-root.mainloop()
+        if not found:
+            a = input("UNRECOGNIZED RESERVATION NO !!! WANNA RETRY? (Y/N): ")
+            if a.lower() == 'y':
+                self.display()
+
+    def reservation(self):
+        tno = int(input("ENTER THE TRAIN NO: "))
+        found = False
+
+        try:
+            with open("Train1.dat", "rb") as file:
+                trains = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            print("ERROR IN THE FILE")
+            return
+
+        # Find the train based on train number (tno)
+        for train in trains:
+            if train.trainno == tno:
+                found = True
+                # Store train details in a variable
+                selected_train = train
+                # Set tickets count based on selected train
+                self.nofaf = train.nofafseat
+                self.nofas = train.nofasseat
+                self.noffs = train.noffsseat
+                self.nofac = train.nofacseat
+                self.nofss = train.nofssseat
+                break
+
+        if not found:
+            print("ERROR IN THE TRAIN NUMBER ENTERED!!!")
+            return
+
+        tickets = []
+        try:
+            with open("Ticket1.dat", "rb") as file:
+                tickets = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            pass
+
+        while True:
+            self.name = input("NAME: ")
+            self.age = int(input("AGE: "))
+            print("SELECT THE CLASS WHICH YOU WISH TO TRAVEL")
+            print("1. A/C FIRST CLASS")
+            print("2. A/C SECOND CLASS")
+            print("3. FIRST CLASS SLEEPER")
+            print("4. A/C CHAIR CAR")
+            print("5. SECOND CLASS SLEEPER")
+            c = int(input("ENTER YOUR CHOICE: "))
+
+            if c == 1:
+                self.toaf += 1
+                self.resno = random.randint(100000, 999999)
+                self.status = "confirmed" if (self.nofaf - self.toaf) > 0 else "pending"
+            elif c == 2:
+                self.toas += 1
+                self.resno = random.randint(100000, 999999)
+                self.status = "confirmed" if (self.nofas - self.toas) > 0 else "pending"
+            elif c == 3:
+                self.tofs += 1
+                self.resno = random.randint(100000, 999999)
+                self.status = "confirmed" if (self.noffs - self.tofs) > 0 else "pending"
+            elif c == 4:
+                self.toac += 1
+                self.resno = random.randint(109900, 999999)
+                self.status = "confirmed" if (self.nofac - self.toac) > 0 else "pending"
+            elif c == 5:
+                self.toss += 1
+                self.resno = random.randint(100000, 999999)
+                self.status = "confirmed" if (self.nofss - self.toss) > 0 else "pending"
+            else:
+                print("Invalid choice!")
+                continue
+
+            print(f"STATUS: {self.status}")
+            print(f"RESERVATION NO: {self.resno}")
+            tickets.append(self)
+            
+            # Generate receipt with both ticket and train details
+            self.generate_receipt(selected_train)
+
+            n = input("DO YOU WISH TO CONTINUE BOOKING TICKETS (Y/N)? ")
+            if n.lower() != 'y':
+                break
+
+        with open("Ticket1.dat", "wb") as file:
+            pickle.dump(tickets, file)
+
+    def cancellation(self):
+        try:
+            with open("Ticket1.dat", "rb") as file:
+                tickets = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            print("ERROR IN THE FILE!!!")
+            return
+
+        r = int(input("ENTER THE RESERVATION NO: "))
+        found = False
+        updated_tickets = []
+
+        for ticket in tickets:
+            if ticket.resno != r:
+                updated_tickets.append(ticket)
+            else:
+                found = True
+
+        with open("Ticket1.dat", "wb") as file:
+            pickle.dump(updated_tickets, file)
+
+        if not found:
+            print("NO SUCH RESERVATION IS MADE!!! PLEASE RETRY")
+        else:
+            print("RESERVATION CANCELLED")
+        input()
+
+def showMenu():
+    print("==========================")
+    print("RAILWAY TICKET RESERVATION")
+    print("==========================")
+    print("1. TRAIN DETAILS")
+    print("2. UPDATE TRAIN DETAILS")
+    print("3. RESERVING A TICKET")
+    print("4. CANCELLING A TICKET")
+    print("5. DISPLAY THE PRESENT TICKET STATUS")
+    print("6. EXIT")
+    print("ENTER YOUR CHOICE: ", end='')
+
+def main():
+    while True:
+        showMenu()
+        choice = int(input())
+        tr = Train()
+        tick = Tickets()
+
+        if choice == 1:
+            try:
+                with open("Train1.dat", "rb") as file:
+                    trains = pickle.load(file)
+            except (FileNotFoundError, EOFError):
+                print("ERROR IN THE FILE !!!")
+            else:
+                for train in trains:
+                    train.display()
+        elif choice == 2:
+            password = int(input("ENTER THE PASSWORD: "))
+            if password == 1234:  # assuming 1234 as the password
+                try:
+                    with open("Train1.dat", "rb") as file:
+                        trains = pickle.load(file)
+                except (FileNotFoundError, EOFError):
+                    trains = []
+
+                continueUpdating = 'y'
+                while continueUpdating.lower() == 'y':
+                    tr.input()
+                    trains.append(tr)
+                    continueUpdating = input("DO YOU WISH TO CONTINUE UPDATING? (Y/N): ")
+
+                with open("Train1.dat", "wb") as file:
+                    pickle.dump(trains, file)
+            else:
+                print("INVALID PASSWORD!!!")
+        elif choice == 3:
+            tick.reservation()
+        elif choice == 4:
+            tick.cancellation()
+        elif choice == 5:
+            tick.display()
+        elif choice == 6:
+            exit(0)
+        else:
+            print("INVALID CHOICE!!!")
+
+if __name__ == "__main__":
+    main()
