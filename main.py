@@ -1,8 +1,14 @@
+from flask import Flask, render_template, request, send_file
+
+import io
 import pickle
 import random
 import qrcode
 from fpdf import FPDF
 from PIL import Image
+
+app = Flask(__name__)
+
 
 class Train:
     def __init__(self):
