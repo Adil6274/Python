@@ -252,48 +252,51 @@ def showMenu():
 def main():
     while True:
         showMenu()
-        choice = int(input())
-        tr = Train()
-        tick = Tickets()
+        try:
+            choice = int(input())
+            tr = Train()
+            tick = Tickets()
 
-        if choice == 1:
-            try:
-                with open("Train1.dat", "rb") as file:
-                    trains = pickle.load(file)
-            except (FileNotFoundError, EOFError):
-                print("ERROR IN THE FILE !!!")
-            else:
-                for train in trains:
-                    train.display()
-        elif choice == 2:
-            password = int(input("ENTER THE PASSWORD: "))
-            if password == 1234:  # assuming 1234 as the password
+            if choice == 1:
                 try:
                     with open("Train1.dat", "rb") as file:
                         trains = pickle.load(file)
                 except (FileNotFoundError, EOFError):
-                    trains = []
+                    print("ERROR IN THE FILE !!!")
+                else:
+                    for train in trains:
+                        train.display()
+            elif choice == 2:
+                password = int(input("ENTER THE PASSWORD: "))
+                if password == 1234:  # assuming 1234 as the password
+                    try:
+                        with open("Train1.dat", "rb") as file:
+                            trains = pickle.load(file)
+                    except (FileNotFoundError, EOFError):
+                        trains = []
 
-                continueUpdating = 'y'
-                while continueUpdating.lower() == 'y':
-                    tr.input()
-                    trains.append(tr)
-                    continueUpdating = input("DO YOU WISH TO CONTINUE UPDATING? (Y/N): ")
+                    continueUpdating = 'y'
+                    while continueUpdating.lower() == 'y':
+                        tr.input()
+                        trains.append(tr)
+                        continueUpdating = input("DO YOU WISH TO CONTINUE UPDATING? (Y/N): ")
 
-                with open("Train1.dat", "wb") as file:
-                    pickle.dump(trains, file)
+                    with open("Train1.dat", "wb") as file:
+                        pickle.dump(trains, file)
+                else:
+                    print("INVALID PASSWORD!!!")
+            elif choice == 3:
+                tick.reservation()
+            elif choice == 4:
+                tick.cancellation()
+            elif choice == 5:
+                tick.display()
+            elif choice == 6:
+                exit(0)
             else:
-                print("INVALID PASSWORD!!!")
-        elif choice == 3:
-            tick.reservation()
-        elif choice == 4:
-            tick.cancellation()
-        elif choice == 5:
-            tick.display()
-        elif choice == 6:
-            exit(0)
-        else:
-            print("INVALID CHOICE!!!")
+                print("INVALID CHOICE!!!")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
 
 if __name__ == "__main__":
-   main()
+    main()
